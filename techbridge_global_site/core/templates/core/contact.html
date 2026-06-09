@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% block title %}Contact | {{ company.company_name|default:'TechBridge Global Limited' }}{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <div class="eyebrow">Contact</div>
+        <h1>Start a discussion with TechBridge Global</h1>
+        <p>Send us your request for software, IT consulting, recruitment, candidate relocation or business support services.</p>
+    </div>
+</section>
+<section class="section container contact-grid">
+    <div class="contact-panel">
+        <h2>Company details</h2>
+        <p>{% if company %}{{ company.tagline }}{% else %}Technology, talent and relocation support for international companies.{% endif %}</p>
+        {% if company.email %}<p><strong>Email:</strong> <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>{% endif %}
+        {% if company.phone %}<p><strong>Phone:</strong> {{ company.phone }}</p>{% endif %}
+        {% if company.address %}<p><strong>Address:</strong> {{ company.address }}</p>{% endif %}
+    </div>
+    <form class="contact-form" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn primary" type="submit">Submit enquiry</button>
+    </form>
+</section>
+{% endblock %}

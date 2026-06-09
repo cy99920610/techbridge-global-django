@@ -1,0 +1,28 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}Message from {{ message_obj.name }}{% endblock %}
+{% block content %}
+<div class="panel-actions">
+    <a class="panel-btn secondary" href="{% url 'panel_message_list' %}">← Back to Messages</a>
+</div>
+
+<div class="panel-card">
+    <div class="panel-detail-grid">
+        <div><strong>Name</strong>{{ message_obj.name }}</div>
+        <div><strong>Company</strong>{{ message_obj.company|default:"—" }}</div>
+        <div><strong>Email</strong><a href="mailto:{{ message_obj.email }}">{{ message_obj.email }}</a></div>
+        <div><strong>Phone</strong>{{ message_obj.phone|default:"—" }}</div>
+        <div><strong>Service Interest</strong>{{ message_obj.service_interest|default:"—" }}</div>
+        <div><strong>Received</strong>{{ message_obj.created_at|date:"M d, Y H:i" }}</div>
+        <div><strong>Message</strong>{{ message_obj.message|linebreaksbr }}</div>
+    </div>
+</div>
+
+<div class="panel-card">
+    <h2>Update Status</h2>
+    <form method="post" class="panel-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="panel-btn primary" type="submit">Save Status</button>
+    </form>
+</div>
+{% endblock %}

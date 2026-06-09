@@ -1,0 +1,42 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}Contact Messages{% endblock %}
+{% block content %}
+<div class="panel-card">
+    {% if message_list %}
+    <div class="panel-table-wrap">
+        <table class="panel-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Email</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in message_list %}
+                <tr>
+                    <td><a href="{% url 'panel_message_detail' msg.pk %}">{{ msg.name }}</a></td>
+                    <td>{{ msg.company|default:"—" }}</td>
+                    <td>{{ msg.email }}</td>
+                    <td>{{ msg.service_interest|default:"—" }}</td>
+                    <td>{{ msg.created_at|date:"M d, Y H:i" }}</td>
+                    <td>
+                        {% if msg.is_processed %}
+                        <span class="panel-badge done">Processed</span>
+                        {% else %}
+                        <span class="panel-badge new">New</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="panel-empty">No contact messages yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

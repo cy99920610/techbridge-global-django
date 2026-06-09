@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | TechBridge Global</title>
+    <link rel="stylesheet" href="{% static 'core/css/panel.css' %}">
+</head>
+<body class="panel-login-page">
+    <div class="panel-login-card">
+        <h1>Admin Panel</h1>
+        <p>Sign in to manage website content dynamically.</p>
+
+        {% if messages %}
+        <div class="panel-messages">
+            {% for message in messages %}
+            <div class="panel-message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" class="panel-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="panel-btn primary" type="submit" style="width:100%;margin-top:8px;">Sign In</button>
+        </form>
+        <p style="margin-top:20px;font-size:14px;"><a href="{% url 'home' %}" style="color:var(--panel-accent);">← Back to website</a></p>
+    </div>
+</body>
+</html>

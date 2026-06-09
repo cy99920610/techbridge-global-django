@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel{% endblock %} | TechBridge Global</title>
+    <link rel="stylesheet" href="{% static 'core/css/panel.css' %}">
+</head>
+<body class="panel-body">
+<div class="panel-layout">
+    <aside class="panel-sidebar">
+        <div class="panel-brand">
+            <span class="panel-brand-mark">TB</span>
+            <span>Admin Panel</span>
+        </div>
+        <nav class="panel-nav">
+            <a href="{% url 'panel_dashboard' %}" {% if request.resolver_match.url_name == 'panel_dashboard' %}class="active"{% endif %}>Dashboard</a>
+            <a href="{% url 'panel_settings' %}" {% if request.resolver_match.url_name == 'panel_settings' %}class="active"{% endif %}>Company Settings</a>
+            <a href="{% url 'panel_service_list' %}" {% if 'panel_service' in request.resolver_match.url_name %}class="active"{% endif %}>Services</a>
+            <a href="{% url 'panel_process_list' %}" {% if 'panel_process' in request.resolver_match.url_name %}class="active"{% endif %}>Process Steps</a>
+            <a href="{% url 'panel_testimonial_list' %}" {% if 'panel_testimonial' in request.resolver_match.url_name %}class="active"{% endif %}>Testimonials</a>
+            <a href="{% url 'panel_faq_list' %}" {% if 'panel_faq' in request.resolver_match.url_name %}class="active"{% endif %}>FAQs</a>
+            <a href="{% url 'panel_message_list' %}" {% if 'panel_message' in request.resolver_match.url_name %}class="active"{% endif %}>Messages</a>
+        </nav>
+        <div class="panel-sidebar-footer">
+            <a href="{% url 'home' %}" target="_blank">View Website</a>
+            <a href="{% url 'panel_logout' %}">Sign Out</a>
+        </div>
+    </aside>
+    <main class="panel-main">
+        <div class="panel-topbar">
+            <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+            <div class="panel-user">Signed in as <strong>{{ request.user.username }}</strong></div>
+        </div>
+
+        {% if messages %}
+        <div class="panel-messages">
+            {% for message in messages %}
+            <div class="panel-message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</div>
+</body>
+</html>

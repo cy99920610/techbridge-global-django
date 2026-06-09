@@ -1,0 +1,46 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}FAQs{% endblock %}
+{% block content %}
+<div class="panel-actions">
+    <a class="panel-btn primary" href="{% url 'panel_faq_create' %}">Add FAQ</a>
+</div>
+<div class="panel-card">
+    {% if faqs %}
+    <div class="panel-table-wrap">
+        <table class="panel-table">
+            <thead>
+                <tr>
+                    <th>Question</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for faq in faqs %}
+                <tr>
+                    <td>{{ faq.question }}</td>
+                    <td>{{ faq.order }}</td>
+                    <td>
+                        {% if faq.is_active %}
+                        <span class="panel-badge active">Active</span>
+                        {% else %}
+                        <span class="panel-badge inactive">Hidden</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="panel-inline-actions">
+                            <a class="panel-btn secondary small" href="{% url 'panel_faq_edit' faq.pk %}">Edit</a>
+                            <a class="panel-btn danger small" href="{% url 'panel_faq_delete' faq.pk %}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="panel-empty">No FAQs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

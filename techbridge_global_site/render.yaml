@@ -1,0 +1,32 @@
+# Render Blueprint — deploy from https://dashboard.render.com/blueprints
+# Connect your Git repo, then use "New > Blueprint" and select this file.
+
+databases:
+  - name: techbridge-db
+    plan: free
+    databaseName: techbridge
+    user: techbridge
+
+services:
+  - type: web
+    name: techbridge-global
+    runtime: python
+    plan: free
+    buildCommand: ./build.sh
+    startCommand: gunicorn techbridge_global.wsgi:application --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: techbridge-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS
+        sync: false
+      # Optional: add CLOUDINARY_URL in the Render dashboard for logo uploads

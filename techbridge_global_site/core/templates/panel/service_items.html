@@ -1,0 +1,57 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}{{ category.title }} — Items{% endblock %}
+{% block content %}
+<div class="panel-actions">
+    <a class="panel-btn secondary" href="{% url 'panel_service_list' %}">← Back to Services</a>
+</div>
+
+<div class="panel-card">
+    <h2>Service Items</h2>
+    {% if items %}
+    <div class="panel-table-wrap">
+        <table class="panel-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.order }}</td>
+                    <td>
+                        {% if item.is_active %}
+                        <span class="panel-badge active">Active</span>
+                        {% else %}
+                        <span class="panel-badge inactive">Hidden</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="panel-inline-actions">
+                            <a class="panel-btn secondary small" href="{% url 'panel_service_item_edit' category.pk item.pk %}">Edit</a>
+                            <a class="panel-btn danger small" href="{% url 'panel_service_item_delete' category.pk item.pk %}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="panel-empty">No items in this category yet.</p>
+    {% endif %}
+</div>
+
+<div class="panel-card">
+    <h2>Add Item</h2>
+    <form method="post" class="panel-form">
+        {% csrf_token %}
+        {{ item_form.as_p }}
+        <button class="panel-btn primary" type="submit">Add Item</button>
+    </form>
+</div>
+{% endblock %}

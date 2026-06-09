@@ -1,0 +1,17 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}Confirm Delete{% endblock %}
+{% block content %}
+<div class="panel-card">
+    <h2>Delete "{{ object_label }}"?</h2>
+    <p style="color:#50627a;">This action cannot be undone.</p>
+    <form method="post" class="panel-actions">
+        {% csrf_token %}
+        <button class="panel-btn danger" type="submit">Yes, Delete</button>
+        {% if cancel_url_kwargs %}
+        <a class="panel-btn secondary" href="{% url cancel_url cancel_url_kwargs.pk %}">Cancel</a>
+        {% else %}
+        <a class="panel-btn secondary" href="{% url cancel_url %}">Cancel</a>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

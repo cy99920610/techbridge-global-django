@@ -1,0 +1,14 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="panel-card">
+    <form method="post" class="panel-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="panel-actions">
+            <button class="panel-btn primary" type="submit">Save</button>
+            <a class="panel-btn secondary" href="{% url 'panel_process_list' %}">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

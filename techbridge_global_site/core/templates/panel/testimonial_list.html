@@ -1,0 +1,48 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}Testimonials{% endblock %}
+{% block content %}
+<div class="panel-actions">
+    <a class="panel-btn primary" href="{% url 'panel_testimonial_create' %}">Add Testimonial</a>
+</div>
+<div class="panel-card">
+    {% if testimonials %}
+    <div class="panel-table-wrap">
+        <table class="panel-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Role</th>
+                    <th>Quote</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for testimonial in testimonials %}
+                <tr>
+                    <td>{{ testimonial.client_name }}</td>
+                    <td>{{ testimonial.client_role|default:"—" }}</td>
+                    <td>{{ testimonial.quote|truncatewords:14 }}</td>
+                    <td>
+                        {% if testimonial.is_active %}
+                        <span class="panel-badge active">Active</span>
+                        {% else %}
+                        <span class="panel-badge inactive">Hidden</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="panel-inline-actions">
+                            <a class="panel-btn secondary small" href="{% url 'panel_testimonial_edit' testimonial.pk %}">Edit</a>
+                            <a class="panel-btn danger small" href="{% url 'panel_testimonial_delete' testimonial.pk %}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="panel-empty">No testimonials yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

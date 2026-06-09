@@ -1,0 +1,12 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}Company Settings{% endblock %}
+{% block content %}
+<div class="panel-card">
+    <p style="color:#50627a;margin-top:0;">Update branding, contact details, hero text and footer content. Changes appear on the public website immediately.</p>
+    <form method="post" enctype="multipart/form-data" class="panel-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="panel-btn primary" type="submit">Save Settings</button>
+    </form>
+</div>
+{% endblock %}

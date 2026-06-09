@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+{% block title %}Services | {{ company.company_name|default:'TechBridge Global Limited' }}{% endblock %}
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <div class="eyebrow">Services</div>
+        <h1>Technology, recruitment and relocation support in one professional structure</h1>
+        <p>Our service portfolio covers software, consulting, recruitment and relocation support for international businesses.</p>
+    </div>
+</section>
+<section class="section container">
+    {% for category in categories %}
+    <div class="service-detail">
+        <div class="service-detail-head">
+            <div class="service-icon">{{ category.icon }}</div>
+            <div><h2>{{ category.title }}</h2><p>{{ category.description }}</p></div>
+        </div>
+        <div class="mini-grid">
+            {% for item in category.items.all %}
+                {% if item.is_active %}
+                <div class="mini-card"><h3>{{ item.title }}</h3><p>{{ item.description }}</p></div>
+                {% endif %}
+            {% empty %}<p>No service items added yet.</p>{% endfor %}
+        </div>
+    </div>
+    {% empty %}<p>Add service categories in Django Admin.</p>{% endfor %}
+</section>
+{% endblock %}

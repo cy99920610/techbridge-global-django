@@ -1,0 +1,48 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}Process Steps{% endblock %}
+{% block content %}
+<div class="panel-actions">
+    <a class="panel-btn primary" href="{% url 'panel_process_create' %}">Add Step</a>
+</div>
+<div class="panel-card">
+    {% if steps %}
+    <div class="panel-table-wrap">
+        <table class="panel-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for step in steps %}
+                <tr>
+                    <td>{{ step.number }}</td>
+                    <td>{{ step.title }}</td>
+                    <td>{{ step.description|truncatewords:12 }}</td>
+                    <td>
+                        {% if step.is_active %}
+                        <span class="panel-badge active">Active</span>
+                        {% else %}
+                        <span class="panel-badge inactive">Hidden</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="panel-inline-actions">
+                            <a class="panel-btn secondary small" href="{% url 'panel_process_edit' step.pk %}">Edit</a>
+                            <a class="panel-btn danger small" href="{% url 'panel_process_delete' step.pk %}">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="panel-empty">No process steps yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

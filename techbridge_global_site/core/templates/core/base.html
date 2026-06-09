@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% if company %}{{ company.company_name }}{% else %}TechBridge Global Limited{% endif %}{% endblock %}</title>
+    <meta name="description" content="Technology, software development, IT recruitment and relocation support services.">
+    <link rel="stylesheet" href="{% static 'core/css/styles.css' %}">
+</head>
+<body>
+<header class="site-header">
+    <nav class="navbar container">
+        <a class="brand" href="{% url 'home' %}">
+            {% if company.logo %}<img src="{{ company.logo.url }}" alt="{{ company.company_name }} logo">{% else %}<span class="brand-mark">TB</span>{% endif %}
+            <span>{% if company %}{{ company.company_name }}{% else %}TechBridge Global Limited{% endif %}</span>
+        </a>
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="nav-links" id="navLinks">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'services' %}">Services</a>
+            <a href="{% url 'contact' %}" class="nav-cta">Contact</a>
+        </div>
+    </nav>
+</header>
+
+{% if messages %}
+<div class="messages container">
+    {% for message in messages %}<div class="message {{ message.tags }}">{{ message }}</div>{% endfor %}
+</div>
+{% endif %}
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer class="footer">
+    <div class="container footer-grid">
+        <div>
+            <h3>{% if company %}{{ company.company_name }}{% else %}TechBridge Global Limited{% endif %}</h3>
+            <p>{% if company %}{{ company.footer_note }}{% else %}International B2B technology and talent support services.{% endif %}</p>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            {% if company.email %}<p>Email: <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>{% endif %}
+            {% if company.phone %}<p>Phone: {{ company.phone }}</p>{% endif %}
+            {% if company.address %}<p>{{ company.address }}</p>{% endif %}
+        </div>
+        <div>
+            <h4>Services</h4>
+            <p>Software Development · IT Consulting · Tech Recruitment · Relocation Coordination</p>
+        </div>
+    </div>
+    <div class="copyright">© {% now "Y" %} {% if company %}{{ company.company_name }}{% else %}TechBridge Global Limited{% endif %}. All rights reserved.</div>
+</footer>
+<script src="{% static 'core/js/main.js' %}"></script>
+</body>
+</html>

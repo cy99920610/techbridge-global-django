@@ -1,0 +1,60 @@
+{% extends 'panel/base.html' %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<div class="panel-stats">
+    <div class="panel-stat-card"><strong>{{ stats.services }}</strong><span>Service Categories</span></div>
+    <div class="panel-stat-card"><strong>{{ stats.service_items }}</strong><span>Service Items</span></div>
+    <div class="panel-stat-card"><strong>{{ stats.process_steps }}</strong><span>Process Steps</span></div>
+    <div class="panel-stat-card"><strong>{{ stats.testimonials }}</strong><span>Testimonials</span></div>
+    <div class="panel-stat-card"><strong>{{ stats.faqs }}</strong><span>FAQs</span></div>
+    <div class="panel-stat-card"><strong>{{ stats.messages_new }}</strong><span>New Messages ({{ stats.messages_total }} total)</span></div>
+</div>
+
+<div class="panel-card">
+    <h2>Quick Actions</h2>
+    <div class="panel-actions">
+        <a class="panel-btn primary" href="{% url 'panel_settings' %}">Edit Company Settings</a>
+        <a class="panel-btn secondary" href="{% url 'panel_service_create' %}">Add Service</a>
+        <a class="panel-btn secondary" href="{% url 'panel_faq_create' %}">Add FAQ</a>
+        <a class="panel-btn secondary" href="{% url 'panel_message_list' %}">View Messages</a>
+    </div>
+</div>
+
+<div class="panel-card">
+    <h2>Recent Enquiries</h2>
+    {% if recent_messages %}
+    <div class="panel-table-wrap">
+        <table class="panel-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for msg in recent_messages %}
+                <tr>
+                    <td><a href="{% url 'panel_message_detail' msg.pk %}">{{ msg.name }}</a></td>
+                    <td>{{ msg.email }}</td>
+                    <td>{{ msg.service_interest|default:"—" }}</td>
+                    <td>{{ msg.created_at|date:"M d, Y H:i" }}</td>
+                    <td>
+                        {% if msg.is_processed %}
+                        <span class="panel-badge done">Processed</span>
+                        {% else %}
+                        <span class="panel-badge new">New</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="panel-empty">No contact messages yet.</p>
+    {% endif %}
+</div>
+{% endblock %}
